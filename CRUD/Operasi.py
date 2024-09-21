@@ -2,6 +2,7 @@ from time import time
 from . import Database
 from.Util import randomString
 import time
+import os
 
 def create(tahun,judul,pembuat):
     data = Database.TEMPLATE.copy()
@@ -87,3 +88,23 @@ def update(noFilm,pk,dateAdd,tahun,judul,pembuat):
             file.write(dataStr)
     except:
         print("Error Saat Mengupdate Data")
+
+def delete(noFilm):
+    try:
+        with open(Database.DB_NAME,'r') as file:
+            counter = 0
+
+            while True:
+                content = file.readline()
+                if len(content) == 0:
+                    break
+                elif counter == noFilm - 1:
+                    pass
+                else:
+                    with(open("dataTemp.txt",'a',encoding="utf-8")) as tempFile:
+                        tempFile.write(content)
+                counter += 1
+    except:
+        print("Database Error Gagal Menghapus")
+
+    os.rename("dataTemp.txt",Database.DB_NAME)

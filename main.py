@@ -36,7 +36,7 @@ if __name__ == "__main__":
             case "1": CRUD.readConsole()
             case "2": CRUD.createConsole()
             case "3": CRUD.updateConsole()
-            case "4": print("Delete Data")
+            case "4": CRUD.deleteConsole()
             
         isDone = input("Apakah Selesai (y/n)? ")
 

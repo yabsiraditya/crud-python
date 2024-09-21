@@ -104,3 +104,39 @@ def updateConsole():
         if isDone == "y" or isDone == "Y":
             break
     Operasi.update(noFilm,pk,dateAdd,tahun,judul,pembuat)
+
+
+def deleteConsole():
+    readConsole()
+
+    while True:
+        print("Silahkan Pilih Nomer Buku Yang Ingin Didelete")
+        noFilm = int(input("Nomor Film: "))
+
+        dataFilm = Operasi.read(index=noFilm)
+
+        if dataFilm:
+            dataBreak = dataFilm.split(",")
+            pk = dataBreak[0]
+            dateAdd = dataBreak[1]
+            judul = dataBreak[2]
+            pembuat = dataBreak[3]
+            tahun = dataBreak[4][:-1]
+
+
+            # Data yang ingin diupdate
+            print("\n"+"="*100)
+            print("Data Yang Anda Ingin Hapus")
+            print(f"1. Judul\t: {judul:.40}")
+            print(f"2. Pembuat\t: {pembuat:.40}")
+            print(f"3. Tahun\t: {tahun:4}")
+            
+            isDone = input("Apakah Yakin Akan Dihapus (y/n)? ")
+
+            if isDone == "y" or isDone == "Y":
+                Operasi.delete(noFilm)
+                break
+        else:
+            print("Nomot Tidak Valid, Silahkan Masukan Lagi")
+
+    print("Data Berhasil Dihapus")
