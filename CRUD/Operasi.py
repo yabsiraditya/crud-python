@@ -50,11 +50,40 @@ def createFirstData():
     except:
         print("Data gagal ditambahkan")
 
-def read():
+def read(**kwargs):
     try:
         with open(Database.DB_NAME,'r') as file:
             content = file.readlines()
-            return content
+            jumlahFilm = len(content)
+            if "index" in kwargs:
+                indexFilm = kwargs["index"]-1
+                if indexFilm < 0 or indexFilm > jumlahFilm:
+                    return False
+                else:
+                    return content[indexFilm]
+            else:
+                return content
     except:
         print("Data Base Error")
         return False
+    
+
+def update(noFilm,pk,dateAdd,tahun,judul,pembuat):
+    data = Database.TEMPLATE.copy()
+
+    data["pk"] = pk
+    data["dateAdd"] = dateAdd
+    data["judul"] = judul + Database.TEMPLATE["judul"][len(judul):]
+    data["pembuat"] = pembuat + Database.TEMPLATE["pembuat"][len(pembuat):]
+    data["tahun"] = str(tahun)
+
+    dataStr = f'{data["pk"]},{data["dateAdd"]},{data["judul"]},{data["pembuat"]},{data["tahun"]}\n'
+
+    dataLen = len(dataStr)
+
+    try:
+        with(open(Database.DB_NAME,'r+',encoding="utf-8")) as file:
+            file.seek(dataLen*(noFilm-1))
+            file.write(dataStr)
+    except:
+        print("Error Saat Mengupdate Data")
